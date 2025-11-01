@@ -19,24 +19,16 @@ const App = () => {
     });
   };
 
+  // ...
   return (
-    // Application principale utilisant QueryClientProvider et le Toaster
     <QueryClientProvider client={queryClient}>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
-        <div className="p-8 bg-white shadow-xl rounded-lg max-w-md w-full text-center">
-          <h1 className="text-2xl font-bold mb-4 text-green-700">Déploiement Netlify réussi !</h1>
-          <p className="mb-6 text-gray-600">
-            Ce build a réussi car les dépendances et les chemins de modules manquants ont été corrigés.
-          </p>
-          <Button onClick={handleTestToast} className="w-full bg-blue-500 hover:bg-blue-600">
-            Afficher un Toast de test
-          </Button>
-        </div>
-      </div>
-      {/* Doit être inclus pour afficher les notifications toast */}
+      {/* Assurez-vous d'importer ce composant en haut du fichier si ce n'est pas fait */}
+      <Router /> 
+
       <Toaster />
     </QueryClientProvider>
   );
 };
+// ...
 
 export default App;
