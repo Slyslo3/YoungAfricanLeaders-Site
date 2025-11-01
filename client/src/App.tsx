@@ -7,9 +7,8 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
 
-// NOUVEL IMPORT DU LOGO: utilise le chemin relatif vers votre dossier local
-// Le logo est importé comme un module (standard React/Vite)
-import logoImage from "./images_générées/logo.jpg"; 
+// ATTENTION: Nous n'importons plus l'image comme un module.
+// Le logo sera chargé via son chemin statique absolu (fonctionne car le fichier sera dans /public/)
 
 function Router() {
   return (
@@ -26,10 +25,10 @@ function App() {
       <TooltipProvider>
         <LanguageProvider>
           
-          {/* NOUVEL EN-TÊTE FIXE AVEC LE LOGO */}
+          {/* EN-TÊTE AVEC RÉFÉRENCE STATIQUE "/logo.jpg" */}
           <header className="p-4 bg-white shadow-md flex items-center justify-start border-b border-gray-100">
             <img 
-              src={logoImage} 
+              src="/logo.jpg" 
               alt="Young African Leaders Worldwide Logo" 
               className="h-10 w-auto rounded-lg" // Classes Tailwind pour un beau rendu
             />
