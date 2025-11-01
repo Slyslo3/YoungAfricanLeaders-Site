@@ -3,31 +3,31 @@
 import * as React from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 
-// 1. Correction du chemin d'accès et Import du client de requête (TanStack Query)
-import { queryClient } from './lib/queryClient'; 
+// Importation du composant Home, qui est maintenant votre page d'accueil principale
+// Le chemin est corrigé pour pointer vers le dossier 'pages'
+import Home from './pages/Home';
 
-// 2. Importation du composant de routage principal de l'application
-// ⚠️ ASSUREZ-VOUS que ce chemin est correct pour votre fichier Router
-import Router from './Router';
+// Importation du client de requête (TanStack Query)
+import { queryClient } from './lib/queryClient'; 
 
 // Importation du composant Toaster pour les notifications
 import { Toaster } from './components/ui/toaster';
 
 const App = () => {
-  // Remarque : Le code pour 'handleTestToast' et 'useToast' a été retiré
-  // car il n'est plus utilisé et causait un affichage de page de test.
+  // Le code non utilisé a été retiré pour la propreté.
 
   return (
-    // L'application est enveloppée dans le QueryClientProvider pour la gestion des données
+    // L'application est enveloppée dans le QueryClientProvider
     <QueryClientProvider client={queryClient}>
       
-      {/* 3. Le composant Router affiche l'intégralité de votre site Web */}
-      <Router />
+      {/* AFFICHAGE DU COMPOSANT HOME - Votre page d'accueil */}
+      <Home />
       
-      {/* Le Toaster est laissé pour afficher les notifications dans l'application */}
+      {/* Le Toaster est laissé pour afficher les notifications futures */}
       <Toaster />
     </QueryClientProvider>
   );
 };
 
 export default App;
+
