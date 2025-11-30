@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,13 +17,14 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { insertMemberSchema, type InsertMember } from '@shared/schema';
-import { apiRequest } from '@/lib/queryClient';
+import emailjs from '@emailjs/browser';
 import { CheckCircle2, Loader2 } from 'lucide-react';
 
 export function RegistrationSection() {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const areasOptions = [
     { id: 'entrepreneurship', label: t('Entrepreneurship', 'Entrepreneuriat') },
@@ -50,50 +50,80 @@ export function RegistrationSection() {
     },
   });
 
-  const registerMutation = useMutation({
-    mutationFn: async (data: InsertMember) => {
-      return await apiRequest('POST', '/api/members', data);
-    },
-    onSuccess: () => {
-      setIsSuccess(true);
+  const onSubmit = async (data: InsertMember) => {
+    setIsSubmitting(true);
+    
+    try {
+      // Formatage des données pour l'email
+      const areasText = data.areasOfInterest
+        .map(area => areasOptions.find(opt => opt.id === area)?.label)
+        .join(', ');
+
+      // Envoi avec EmailJS
+      const result = await emailjs.send(
+        'service_vhyr06x',
+        'template_f7flo3h', 
+        {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phone: data.phone || 'Non fourni',
+          university: data.university,
+          fieldOfStudy: data.fieldOfStudy || 'Non fourni',
+          linkedinProfile: data.linkedinProfile || 'Non fourni',
+          areasOfInterest: areasText,
+          motivation: data.motivation,
+          to_email: 'yalw@outlook.fr',
+        },
+        '6HExC3jPHz2VV-K2R'
+      );
+
+      if (result.status === 200) {
+        setIsSuccess(true);
+        toast({
+          title: t('Registration Successful!', 'Inscription Réussie !'),
+          description: t(
+            "Welcome to YALW! We'll be in touch soon.",
+            'Bienvenue à YALW ! Nous vous contacterons bientôt.'
+          ),
+        });
+        form.reset();
+      }
+    } catch (error: any) {
+      console.error('EmailJS Error:', error);
       toast({
-        title: t('Registration Successful!', 'Inscription Réussie !'),
-        description: t(
-          'Welcome to YALW! We\'ll be in touch soon.',
-          'Bienvenue à YALW ! Nous vous contacterons bientôt.'
-        ),
-      });
-      form.reset();
-    },
-    onError: (error: any) => {
-      toast({
-        title: t('Registration Failed', 'Échec de l\'Inscription'),
-        description: error.message || t('Please try again later.', 'Veuillez réessayer plus tard.'),
+        title: t('Registration Failed', "Échec de l'Inscription"),
+        description: error.text || t('Please try again later.', 'Veuillez réessayer plus tard.'),
         variant: 'destructive',
       });
-    },
-  });
-
-  const onSubmit = (data: InsertMember) => {
-    registerMutation.mutate(data);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSuccess) {
     return (
-      <section id="register" className="py-24 bg-background">
+      <section id="register" className="py-20 bg-background">
         <div className="max-w-2xl mx-auto px-6">
           <Card className="p-12 text-center border border-border">
-            <CheckCircle2 className="h-16 w-16 text-primary mx-auto mb-6" />
+            <div className="flex justify-center mb-6">
+              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center">
+                <CheckCircle2 className="h-10 w-10 text-primary" />
+              </div>
+            </div>
             <h2 className="text-3xl font-bold text-foreground mb-4">
               {t('Welcome to YALW!', 'Bienvenue à YALW !')}
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
               {t(
                 'Your application has been received. Our team will review it and get back to you within 48 hours.',
-                'Votre candidature a été reçue. Notre équipe l\'examinera et vous contactera dans les 48 heures.'
+                "Votre candidature a été reçue. Notre équipe l'examinera et vous contactera dans les 48 heures."
               )}
             </p>
-            <Button onClick={() => setIsSuccess(false)} data-testid="button-register-another">
+            <Button
+              onClick={() => setIsSuccess(false)}
+              data-testid="button-register-another"
+            >
               {t('Register Another Member', 'Inscrire un Autre Membre')}
             </Button>
           </Card>
@@ -103,13 +133,13 @@ export function RegistrationSection() {
   }
 
   return (
-    <section id="register" className="py-24 bg-background">
-      <div className="max-w-2xl mx-auto px-6">
+    <section id="register" className="py-20 bg-background">
+      <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             {t('Join Our Network', 'Rejoindre Notre Réseau')}
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             {t(
               'Take the first step towards becoming part of a transformative community',
               'Faites le premier pas pour rejoindre une communauté transformatrice'
@@ -121,7 +151,7 @@ export function RegistrationSection() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Name Fields */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="firstName"
@@ -129,7 +159,7 @@ export function RegistrationSection() {
                     <FormItem>
                       <FormLabel>{t('First Name', 'Prénom')} *</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={registerMutation.isPending} data-testid="input-firstname" />
+                        <Input {...field} disabled={isSubmitting} data-testid="input-firstName" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -142,7 +172,7 @@ export function RegistrationSection() {
                     <FormItem>
                       <FormLabel>{t('Last Name', 'Nom')} *</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={registerMutation.isPending} data-testid="input-lastname" />
+                        <Input {...field} disabled={isSubmitting} data-testid="input-lastName" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -151,7 +181,7 @@ export function RegistrationSection() {
               </div>
 
               {/* Contact Fields */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="email"
@@ -159,7 +189,7 @@ export function RegistrationSection() {
                     <FormItem>
                       <FormLabel>{t('Email', 'Email')} *</FormLabel>
                       <FormControl>
-                        <Input type="email" {...field} disabled={registerMutation.isPending} data-testid="input-email" />
+                        <Input type="email" {...field} disabled={isSubmitting} data-testid="input-email" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -172,7 +202,7 @@ export function RegistrationSection() {
                     <FormItem>
                       <FormLabel>{t('Phone', 'Téléphone')}</FormLabel>
                       <FormControl>
-                        <Input type="tel" {...field} disabled={registerMutation.isPending} data-testid="input-phone" />
+                        <Input {...field} disabled={isSubmitting} data-testid="input-phone" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -181,7 +211,7 @@ export function RegistrationSection() {
               </div>
 
               {/* Education Fields */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="university"
@@ -189,7 +219,7 @@ export function RegistrationSection() {
                     <FormItem>
                       <FormLabel>{t('University/School', 'Université/École')} *</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={registerMutation.isPending} data-testid="input-university" />
+                        <Input {...field} disabled={isSubmitting} data-testid="input-university" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -200,9 +230,9 @@ export function RegistrationSection() {
                   name="fieldOfStudy"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t('Field of Study', 'Domaine d\'Études')}</FormLabel>
+                      <FormLabel>{t('Field of Study', "Domaine d'Études")}</FormLabel>
                       <FormControl>
-                        <Input {...field} value={field.value || ''} disabled={registerMutation.isPending} data-testid="input-fieldofstudy" />
+                        <Input {...field} disabled={isSubmitting} data-testid="input-fieldOfStudy" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -218,7 +248,7 @@ export function RegistrationSection() {
                   <FormItem>
                     <FormLabel>{t('LinkedIn Profile URL', 'URL Profil LinkedIn')}</FormLabel>
                     <FormControl>
-                      <Input type="url" placeholder="https://linkedin.com/in/..." {...field} disabled={registerMutation.isPending} data-testid="input-linkedin" />
+                      <Input {...field} disabled={isSubmitting} data-testid="input-linkedinProfile" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -231,15 +261,15 @@ export function RegistrationSection() {
                 name="areasOfInterest"
                 render={() => (
                   <FormItem>
-                    <FormLabel>{t('Areas of Interest', 'Domaines d\'Intérêt')} *</FormLabel>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                    <FormLabel>{t('Areas of Interest', "Domaines d'Intérêt")} *</FormLabel>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                       {areasOptions.map((area) => (
                         <FormField
                           key={area.id}
                           control={form.control}
                           name="areasOfInterest"
                           render={({ field }) => (
-                            <FormItem className="flex items-center space-x-2 space-y-0">
+                            <FormItem className="flex items-center space-x-3 space-y-0">
                               <FormControl>
                                 <Checkbox
                                   checked={field.value?.includes(area.id)}
@@ -251,7 +281,7 @@ export function RegistrationSection() {
                                       field.onChange(current.filter(val => val !== area.id));
                                     }
                                   }}
-                                  disabled={registerMutation.isPending}
+                                  disabled={isSubmitting}
                                   data-testid={`checkbox-interest-${area.id}`}
                                 />
                               </FormControl>
@@ -279,11 +309,7 @@ export function RegistrationSection() {
                       <Textarea
                         {...field}
                         rows={4}
-                        placeholder={t(
-                          'Share your motivation, goals, and what you hope to contribute...',
-                          'Partagez votre motivation, vos objectifs et ce que vous espérez apporter...'
-                        )}
-                        disabled={registerMutation.isPending}
+                        disabled={isSubmitting}
                         data-testid="input-motivation"
                       />
                     </FormControl>
@@ -295,13 +321,13 @@ export function RegistrationSection() {
               <Button
                 type="submit"
                 className="w-full"
-                disabled={registerMutation.isPending}
+                disabled={isSubmitting}
                 data-testid="button-submit-registration"
               >
-                {registerMutation.isPending && (
+                {isSubmitting && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                {registerMutation.isPending
+                {isSubmitting
                   ? t('Submitting...', 'Envoi en cours...')
                   : t('Submit Application', 'Soumettre la Candidature')}
               </Button>

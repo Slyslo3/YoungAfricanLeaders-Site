@@ -5,19 +5,19 @@ export function StatsSection() {
 
   const stats = [
     {
-      value: '500+',
+      value: '25+',
       label: t('Members', 'Membres'),
     },
     {
-      value: '10+',
+      value: '2+',
       label: t('Cities Worldwide', 'Villes dans le Monde'),
     },
     {
-      value: '50+',
+      value: '2+',
       label: t('Partner Organizations', 'Organisations Partenaires'),
     },
     {
-      value: '100+',
+      value: '2+',
       label: t('Events per Year', 'Événements par An'),
     },
   ];

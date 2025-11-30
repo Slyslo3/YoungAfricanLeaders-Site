@@ -31,16 +31,19 @@ export function Navigation() {
     { id: 'about', label: t('About', 'À Propos') },
     { id: 'missions', label: t('Missions', 'Missions') },
     { id: 'programs', label: t('Programs', 'Programmes') },
-    { id: 'events', label: t('Events', 'Événements') },
+   //{ id: 'events', label: t('Events', 'Événements') },
     { id: 'contact', label: t('Contact', 'Contact') },
   ];
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-background/95 backdrop-blur-md border-b border-border' : 'bg-transparent'
-      }`}
-    >
+  <nav
+    className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled ? 'backdrop-blur-md border-b border-border' : 'bg-transparent'
+    }`}
+    style={{
+      backgroundColor: isScrolled ? 'rgba(102, 51, 153, 0.95)' : 'transparent'
+    }}
+  >
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}

@@ -68,10 +68,10 @@ export function Footer() {
   ];
 
   const socialLinks = [
-    { icon: Linkedin, label: 'LinkedIn', url: '#' },
-    { icon: Twitter, label: 'Twitter', url: '#' },
-    { icon: Instagram, label: 'Instagram', url: '#' },
-    { icon: Facebook, label: 'Facebook', url: '#' },
+    { icon: Linkedin, label: 'LinkedIn', url: 'https://www.linkedin.com/company/yalw/' },
+     //{ icon: Twitter, label: 'Twitter', url: '#' },
+    //{ icon: Instagram, label: 'Instagram', url: '#' },
+    //{ icon: Facebook, label: 'Facebook', url: '#' },
   ];
 
   return (

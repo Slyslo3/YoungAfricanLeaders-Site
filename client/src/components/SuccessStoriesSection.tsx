@@ -1,11 +1,11 @@
-import { Card } from '@/components/ui/card';
+/*import { Card } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Quote } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import member1 from '@assets/generated_images/Female_professional_headshot_portrait_3dd37f26.png';
-import member2 from '@assets/generated_images/Male_professional_headshot_portrait_c3d5c55d.png';
-import member3 from '@assets/generated_images/Female_professional_headshot_2_ccbbbdd9.png';
-import member4 from '@assets/generated_images/Male_professional_headshot_2_7e4cca59.png';
+import member1 from '@assets/generated_images/Female_professional.jpg';
+import member2 from '@assets/generated_images/Male_professional.jpg';
+import member3 from '@assets/generated_images/FemaleProfessional.jpg';
+import member4 from '@assets/generated_images/MaleProfessional.jpg';
 
 export function SuccessStoriesSection() {
   const { t } = useLanguage();
@@ -45,7 +45,7 @@ export function SuccessStoriesSection() {
       quote: t(
         'YALW\'s support helped me secure funding for my social enterprise. The community believes in African-led solutions.',
         'Le soutien de YALW m\'a aidé à obtenir du financement pour mon entreprise sociale. La communauté croit aux solutions menées par des Africains.'
-      ),
+      ), 
     },
   ];
 
@@ -88,3 +88,4 @@ export function SuccessStoriesSection() {
     </section>
   );
 }
+*/

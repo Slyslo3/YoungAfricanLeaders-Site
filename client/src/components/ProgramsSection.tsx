@@ -1,10 +1,10 @@
 import { Card } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Check } from 'lucide-react';
-import workshopImage from '@assets/generated_images/Leadership_training_workshop_session_40bf20d4.png';
-import conferenceImage from '@assets/generated_images/Conference_presentation_event_fd8916f0.png';
+import workshopImage from '@assets/generated_images/Leadership.jpg';
+import conferenceImage from '@assets/generated_images/Conference.jpg';
 import pitchImage from '@assets/generated_images/Entrepreneurship_pitch_event_2d3ed69e.png';
-import communityImage from '@assets/generated_images/Community_networking_gathering_a2dabea4.png';
+import communityImage from '@assets/generated_images/Community.jpg';
 
 export function ProgramsSection() {
   const { t } = useLanguage();

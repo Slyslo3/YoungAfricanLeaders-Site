@@ -84,13 +84,5 @@
   --chart-3: 270 95% 78%;
   --chart-4: 270 95% 88%;
   --chart-5: 270 95% 92%;
-}
 
-/* --- RÈGLE POUR MASQUER LE CURSEUR --- */
-/* Ceci cible la balise vidéo native. Si vous utilisez un DIV personnalisé, 
-   remplacez 'video' par son ID ou sa classe. */
-video {
-    cursor: none;
 }
-/* Si vous vouliez masquer le curseur sur toute la page d'accueil (peu recommandé), 
-   vous utiliseriez 'body { cursor: none; }' */

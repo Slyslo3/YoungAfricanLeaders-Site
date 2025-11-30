@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,14 +14,16 @@ import {
 } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Mail, MapPin, Clock, Linkedin, Twitter, Instagram, Facebook, Loader2 } from 'lucide-react';
+import { Mail, MapPin, Clock, Linkedin, Loader2 } from 'lucide-react';
 import { insertContactSchema, type InsertContact } from '@shared/schema';
-import { apiRequest } from '@/lib/queryClient';
 import officeImage from '@assets/generated_images/Modern_office_headquarters_space_ec712e80.png';
+import emailjs from '@emailjs/browser';
+import { useState } from 'react';
 
 export function ContactSection() {
   const { t } = useLanguage();
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<InsertContact>({
     resolver: zodResolver(insertContactSchema),
@@ -34,38 +35,47 @@ export function ContactSection() {
     },
   });
 
-  const contactMutation = useMutation({
-    mutationFn: async (data: InsertContact) => {
-      return await apiRequest('POST', '/api/contacts', data);
-    },
-    onSuccess: () => {
+  const onSubmit = async (data: InsertContact) => {
+    setIsSubmitting(true);
+    
+    try {
+      const result = await emailjs.send(
+  'service_vhyr06x',
+  'template_z01bjgs',
+  {
+    from_name: data.name,
+    from_email: data.email,
+    subject: data.subject,
+    message: data.message,
+    to_email: 'yalw@outlook.fr',
+  },
+  '6HExC3jPHz2VV-K2R'
+);
+
+      if (result.status === 200) {
+        toast({
+          title: t('Message Sent!', 'Message Envoyé !'),
+          description: t(
+            "We'll get back to you within 24 hours.",
+            'Nous vous répondrons dans les 24 heures.'
+          ),
+        });
+        form.reset();
+      }
+    } catch (error: any) {
+      console.error('EmailJS Error:', error);
       toast({
-        title: t('Message Sent!', 'Message Envoyé !'),
-        description: t(
-          'We\'ll get back to you within 24 hours.',
-          'Nous vous répondrons dans les 24 heures.'
-        ),
-      });
-      form.reset();
-    },
-    onError: (error: any) => {
-      toast({
-        title: t('Failed to Send', 'Échec de l\'Envoi'),
-        description: error.message || t('Please try again later.', 'Veuillez réessayer plus tard.'),
+        title: t('Failed to Send', "Échec de l'Envoi"),
+        description: error.text || t('Please try again later.', 'Veuillez réessayer plus tard.'),
         variant: 'destructive',
       });
-    },
-  });
-
-  const onSubmit = (data: InsertContact) => {
-    contactMutation.mutate(data);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const socialLinks = [
-    { icon: Linkedin, label: 'LinkedIn', url: '#' },
-    { icon: Twitter, label: 'Twitter', url: '#' },
-    { icon: Instagram, label: 'Instagram', url: '#' },
-    { icon: Facebook, label: 'Facebook', url: '#' },
+    { icon: Linkedin, label: 'LinkedIn', url: 'https://www.linkedin.com/company/yalw/' },
   ];
 
   return (
@@ -77,8 +87,8 @@ export function ContactSection() {
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             {t(
-              'Have questions? Want to learn more? We\'d love to hear from you.',
-              'Des questions ? Envie d\'en savoir plus ? Nous serions ravis de vous entendre.'
+              "Have questions? Want to learn more? We'd love to hear from you.",
+              "Des questions ? Envie d'en savoir plus ? Nous serions ravis de vous entendre."
             )}
           </p>
         </div>
@@ -98,7 +108,7 @@ export function ContactSection() {
                     <FormItem>
                       <FormLabel>{t('Name', 'Nom')} *</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={contactMutation.isPending} data-testid="input-contact-name" />
+                        <Input {...field} disabled={isSubmitting} data-testid="input-contact-name" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -111,7 +121,7 @@ export function ContactSection() {
                     <FormItem>
                       <FormLabel>{t('Email', 'Email')} *</FormLabel>
                       <FormControl>
-                        <Input type="email" {...field} disabled={contactMutation.isPending} data-testid="input-contact-email" />
+                        <Input type="email" {...field} disabled={isSubmitting} data-testid="input-contact-email" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -124,7 +134,7 @@ export function ContactSection() {
                     <FormItem>
                       <FormLabel>{t('Subject', 'Sujet')} *</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={contactMutation.isPending} data-testid="input-contact-subject" />
+                        <Input {...field} disabled={isSubmitting} data-testid="input-contact-subject" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -140,7 +150,7 @@ export function ContactSection() {
                         <Textarea
                           {...field}
                           rows={4}
-                          disabled={contactMutation.isPending}
+                          disabled={isSubmitting}
                           data-testid="input-contact-message"
                         />
                       </FormControl>
@@ -151,13 +161,13 @@ export function ContactSection() {
                 <Button
                   type="submit"
                   className="w-full"
-                  disabled={contactMutation.isPending}
+                  disabled={isSubmitting}
                   data-testid="button-submit-contact"
                 >
-                  {contactMutation.isPending && (
+                  {isSubmitting && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  {contactMutation.isPending
+                  {isSubmitting
                     ? t('Sending...', 'Envoi...')
                     : t('Send Message', 'Envoyer le Message')}
                 </Button>
@@ -185,10 +195,10 @@ export function ContactSection() {
                     {t('Email', 'Email')}
                   </h4>
                   <a
-                    href="mailto:contact@yalw.org"
+                    href="mailto:yalw@outlook.fr"
                     className="text-muted-foreground hover:text-primary transition-colors"
                   >
-                    contact@yalw.org
+                    yalw@outlook.fr
                   </a>
                 </div>
               </div>
@@ -213,7 +223,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-foreground mb-1">
-                    {t('Office Hours', 'Heures d\'Ouverture')}
+                    {t('Office Hours', "Heures d'Ouverture")}
                   </h4>
                   <p className="text-muted-foreground">
                     {t('Monday - Friday: 9am - 6pm CET', 'Lundi - Vendredi : 9h - 18h CET')}
@@ -249,3 +259,9 @@ export function ContactSection() {
     </section>
   );
 }
+//xcr3T~sa.XHu'Td       : Mot de passe du compte EmailJS
+//service_vhyr06x       : Service ID
+//6HExC3jPHz2VV-K2R     : Clé publique EmailJS
+//m0aYTq0OqLhUCpHu6pjhJ : Clé privée
+//Template ID:template_z01bjgs
+//service_vhyr06x

@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+/*import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -14,16 +14,16 @@ export function EventsSection() {
       description: t(
         'Annual gathering of African leaders to discuss innovation and impact.',
         'Rassemblement annuel de leaders africains pour discuter innovation et impact.'
-      ),
+      ), 
     },
     {
-      date: t('Jan 20, 2026', '20 Jan 2026'),
+      /*date: t('Jan 20, 2026', '20 Jan 2026'),
       title: t('Entrepreneurship Workshop', 'Atelier Entrepreneuriat'),
       location: t('Online', 'En Ligne'),
       description: t(
         'Learn pitch techniques and connect with potential investors.',
         'Apprenez les techniques de pitch et connectez-vous avec des investisseurs potentiels.'
-      ),
+      ), 
     },
     {
       date: t('Feb 10, 2026', '10 Fév 2026'),
@@ -32,7 +32,7 @@ export function EventsSection() {
       description: t(
         'Connect with fellow members and mentors in a relaxed setting.',
         'Connectez-vous avec d\'autres membres et mentors dans un cadre décontracté.'
-      ),
+      ), 
     },
     {
       date: t('Mar 5, 2026', '5 Mar 2026'),
@@ -41,7 +41,7 @@ export function EventsSection() {
       description: t(
         'Explore the latest in African tech and digital transformation.',
         'Explorez les dernières innovations tech africaines et transformation digitale.'
-      ),
+      ), 
     },
   ];
 
@@ -59,7 +59,6 @@ export function EventsSection() {
             )}
           </p>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {upcomingEvents.map((event, index) => (
             <Card key={index} className="p-6 border border-border" data-testid={`card-event-${index}`}>
@@ -85,6 +84,8 @@ export function EventsSection() {
           ))}
         </div>
       </div>
-    </section>
+    </section> 
+    
   );
 }
+*/

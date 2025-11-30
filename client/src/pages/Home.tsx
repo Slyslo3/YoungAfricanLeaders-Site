@@ -4,8 +4,8 @@ import { VisionSection } from '@/components/VisionSection';
 import { MissionsSection } from '@/components/MissionsSection';
 import { ProgramsSection } from '@/components/ProgramsSection';
 import { StatsSection } from '@/components/StatsSection';
-import { EventsSection } from '@/components/EventsSection';
-import { SuccessStoriesSection } from '@/components/SuccessStoriesSection';
+//import { EventsSection } from '@/components/EventsSection';
+//import { SuccessStoriesSection } from '@/components/SuccessStoriesSection';
 import { RegistrationSection } from '@/components/RegistrationSection';
 import { ContactSection } from '@/components/ContactSection';
 import { Footer } from '@/components/Footer';
@@ -19,11 +19,12 @@ export default function Home() {
       <MissionsSection />
       <ProgramsSection />
       <StatsSection />
-      <EventsSection />
-      <SuccessStoriesSection />
       <RegistrationSection />
       <ContactSection />
       <Footer />
     </div>
   );
 }
+//<EventsSection />
+//<SuccessStoriesSection />
+
