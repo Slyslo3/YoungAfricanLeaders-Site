@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ToastProvider } from "./toast";
 
 // --- Types de base pour le Toast (Doit être en dehors de useToast pour l'exportation) ---
 

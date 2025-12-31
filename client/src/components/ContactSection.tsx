@@ -108,7 +108,7 @@ export function ContactSection() {
                     <FormItem>
                       <FormLabel>{t('Name', 'Nom')} *</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={isSubmitting} data-testid="input-contact-name" />
+                        <Input {...field} value={field.value ?? ''} disabled={isSubmitting} data-testid="input-contact-name" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -121,7 +121,7 @@ export function ContactSection() {
                     <FormItem>
                       <FormLabel>{t('Email', 'Email')} *</FormLabel>
                       <FormControl>
-                        <Input type="email" {...field} disabled={isSubmitting} data-testid="input-contact-email" />
+                        <Input type="email" {...field} value={field.value ?? ''} disabled={isSubmitting} data-testid="input-contact-email" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -134,7 +134,7 @@ export function ContactSection() {
                     <FormItem>
                       <FormLabel>{t('Subject', 'Sujet')} *</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={isSubmitting} data-testid="input-contact-subject" />
+                        <Input {...field} value={field.value ?? ''} disabled={isSubmitting} data-testid="input-contact-subject" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

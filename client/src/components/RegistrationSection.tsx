@@ -159,7 +159,7 @@ export function RegistrationSection() {
                     <FormItem>
                       <FormLabel>{t('First Name', 'Prénom')} *</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={isSubmitting} data-testid="input-firstName" />
+                        <Input {...field} value={field.value ?? ''} disabled={isSubmitting} data-testid="input-firstName" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -172,7 +172,7 @@ export function RegistrationSection() {
                     <FormItem>
                       <FormLabel>{t('Last Name', 'Nom')} *</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={isSubmitting} data-testid="input-lastName" />
+                        <Input {...field} value={field.value ?? ''} disabled={isSubmitting} data-testid="input-lastName" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -189,7 +189,7 @@ export function RegistrationSection() {
                     <FormItem>
                       <FormLabel>{t('Email', 'Email')} *</FormLabel>
                       <FormControl>
-                        <Input type="email" {...field} disabled={isSubmitting} data-testid="input-email" />
+                        <Input type="email" {...field} value={field.value ?? ''} disabled={isSubmitting} data-testid="input-email" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -202,7 +202,7 @@ export function RegistrationSection() {
                     <FormItem>
                       <FormLabel>{t('Phone', 'Téléphone')}</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={isSubmitting} data-testid="input-phone" />
+                        <Input {...field} value={field.value ?? ''} disabled={isSubmitting} data-testid="input-phone" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -219,7 +219,7 @@ export function RegistrationSection() {
                     <FormItem>
                       <FormLabel>{t('University/School', 'Université/École')} *</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={isSubmitting} data-testid="input-university" />
+                        <Input {...field} value={field.value ?? ''} disabled={isSubmitting} data-testid="input-university" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -232,7 +232,7 @@ export function RegistrationSection() {
                     <FormItem>
                       <FormLabel>{t('Field of Study', "Domaine d'Études")}</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={isSubmitting} data-testid="input-fieldOfStudy" />
+                        <Input {...field} value={field.value ?? ''} disabled={isSubmitting} data-testid="input-fieldOfStudy" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -248,7 +248,7 @@ export function RegistrationSection() {
                   <FormItem>
                     <FormLabel>{t('LinkedIn Profile URL', 'URL Profil LinkedIn')}</FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={isSubmitting} data-testid="input-linkedinProfile" />
+                      <Input {...field} value={field.value ?? ''} disabled={isSubmitting} data-testid="input-linkedinProfile" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

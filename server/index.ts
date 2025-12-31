@@ -71,10 +71,12 @@ app.use((req, res, next) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   const port = parseInt(process.env.PORT || '5000', 10);
+
+  // Bind to localhost by default and avoid `reusePort` which can cause
+  // ENOTSUP on some macOS/Node configurations.
   server.listen({
     port,
-    host: "0.0.0.0",
-    reusePort: true,
+    host: process.env.HOST || '127.0.0.1',
   }, () => {
     log(`serving on port ${port}`);
   });
