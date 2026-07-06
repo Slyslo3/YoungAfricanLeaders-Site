@@ -83,7 +83,7 @@ export function MissionsSection() {
             return (
               <Card
                 key={index}
-                className="p-8 hover:scale-105 transition-transform duration-300 border border-border"
+                className="p-8 border border-border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lg"
                 data-testid={`card-mission-${index}`}
               >
                 <div className="mb-6 inline-flex p-3 bg-primary/10 rounded-lg">

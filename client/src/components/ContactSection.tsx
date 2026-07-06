@@ -182,6 +182,7 @@ export function ContactSection() {
                 src={officeImage}
                 alt="YALW Headquarters"
                 className="w-full h-64 object-cover rounded-xl mb-8"
+                loading="lazy"
               />
             </div>
 
@@ -242,6 +243,8 @@ export function ContactSection() {
                       <a
                         key={index}
                         href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="w-10 h-10 bg-muted hover:bg-primary/10 rounded-lg flex items-center justify-center transition-colors group"
                         aria-label={social.label}
                         data-testid={`link-social-${social.label.toLowerCase()}`}
@@ -259,9 +262,3 @@ export function ContactSection() {
     </section>
   );
 }
-//xcr3T~sa.XHu'Td       : Mot de passe du compte EmailJS
-//service_vhyr06x       : Service ID
-//6HExC3jPHz2VV-K2R     : Clé publique EmailJS
-//m0aYTq0OqLhUCpHu6pjhJ : Clé privée
-//Template ID:template_z01bjgs
-//service_vhyr06x

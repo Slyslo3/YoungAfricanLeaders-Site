@@ -17,7 +17,11 @@ export function Footer() {
 
   const newsletterMutation = useMutation({
     mutationFn: async (data: InsertNewsletter) => {
-      return await apiRequest('POST', '/api/newsletter', data);
+      return await apiRequest('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
     },
     onSuccess: () => {
       toast({
@@ -63,7 +67,7 @@ export function Footer() {
     { label: t('About', 'À Propos'), id: 'about' },
     { label: t('Missions', 'Missions'), id: 'missions' },
     { label: t('Programs', 'Programmes'), id: 'programs' },
-    { label: t('Events', 'Événements'), id: 'events' },
+    { label: t('Join Us', 'Rejoindre'), id: 'register' },
     { label: t('Contact', 'Contact'), id: 'contact' },
   ];
 
@@ -80,7 +84,19 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* About */}
           <div>
-            <h3 className="text-2xl font-bold text-primary mb-4">YALW</h3>
+            <div className="flex items-center gap-3 mb-4">
+              <img
+                src="/logo.jpg"
+                alt="Logo Young African Leaders Worldwide"
+                className="h-12 w-12 rounded-full object-cover bg-white ring-1 ring-border shadow-sm"
+              />
+              <div className="leading-tight">
+                <h3 className="text-xl font-bold text-primary">YALW</h3>
+                <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+                  Young African Leaders Worldwide
+                </p>
+              </div>
+            </div>
             <p className="text-sm text-muted-foreground mb-6">
               {t(
                 'Empowering the next generation of African leaders through education, mentorship, and global connections.',
@@ -94,6 +110,8 @@ export function Footer() {
                   <a
                     key={index}
                     href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-muted hover:bg-primary/10 rounded-lg flex items-center justify-center transition-colors group"
                     aria-label={social.label}
                     data-testid={`link-footer-social-${social.label.toLowerCase()}`}
@@ -181,13 +199,15 @@ export function Footer() {
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Young African Leaders Worldwide. {t('All rights reserved.', 'Tous droits réservés.')}
           </p>
-          <div className="flex gap-6 text-sm text-muted-foreground">
-            <button className="hover:text-primary transition-colors">
-              {t('Privacy Policy', 'Politique de Confidentialité')}
-            </button>
-            <button className="hover:text-primary transition-colors">
-              {t('Terms of Service', 'Conditions d\'Utilisation')}
-            </button>
+          <div className="flex items-center gap-6 text-sm text-muted-foreground">
+            <span>Paris, France</span>
+            <a
+              href="mailto:yalw@outlook.fr"
+              className="hover:text-primary transition-colors"
+              data-testid="link-footer-email"
+            >
+              yalw@outlook.fr
+            </a>
           </div>
         </div>
       </div>

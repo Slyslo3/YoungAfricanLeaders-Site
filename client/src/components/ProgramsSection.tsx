@@ -93,6 +93,7 @@ export function ProgramsSection() {
                   src={program.image}
                   alt={program.title}
                   className="w-full h-auto rounded-xl shadow-lg"
+                  loading="lazy"
                 />
               </div>
 

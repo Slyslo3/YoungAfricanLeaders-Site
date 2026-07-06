@@ -24,13 +24,26 @@ export function HeroSection() {
           src={heroImage}
           alt="Young African leaders networking"
           className="w-full h-full object-cover"
+          loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/60 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/75 via-black/60 to-primary/40" />
+        <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-background to-transparent" />
       </div>
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center py-32">
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="inline-flex items-center gap-3 bg-white/10 border border-white/20 backdrop-blur-md rounded-full pl-2 pr-5 py-1.5 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <img
+            src="/logo.jpg"
+            alt=""
+            aria-hidden="true"
+            className="h-9 w-9 rounded-full object-cover bg-white"
+          />
+          <span className="text-sm font-medium text-white/90 tracking-wide">
+            Young African Leaders Worldwide
+          </span>
+        </div>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
           {t(
             'Empowering the Next Generation of African Leaders',
             'Faire Émerger la Prochaine Génération de Leaders Africains'

@@ -10,6 +10,11 @@
 
 /* --- MODE CLAIR (LIGHT MODE) --- */
 :root {
+  /* Typographie */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
   /* Variables utilitaires pour les composants */
   --button-outline: rgba(0,0,0, .10);
   --badge-outline: rgba(0,0,0, .05);
@@ -20,6 +25,7 @@
   /* Couleur de Thème Primaire (Violet: 270) */
   --primary: 270 95% 48%;
   --primary-foreground: 210 5% 98%;
+  --primary-border: hsl(270 95% 42%);
   --sidebar-primary: 270 95% 48%; /* Identique à primary */
   --ring: 270 95% 48%; /* Identique à primary */
   --chart-1: 270 95% 48%; /* Identique à primary */
@@ -29,14 +35,22 @@
   --foreground: 210 6% 12%;
   --card: 0 0% 100%;
   --card-foreground: 210 6% 12%;
+  --card-border: 210 4% 90%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 210 6% 12%;
+  --popover-border: 210 4% 88%;
   --secondary: 210 4% 94%;
   --secondary-foreground: 210 6% 12%;
+  --secondary-border: hsl(210 4% 86%);
   --muted: 210 4% 94%;
   --muted-foreground: 210 3% 48%;
+  --muted-border: hsl(210 4% 86%);
   --accent: 210 4% 94%;
   --accent-foreground: 210 6% 12%;
+  --accent-border: hsl(210 4% 86%);
   --destructive: 0 72% 51%;
   --destructive-foreground: 210 5% 98%;
+  --destructive-border: hsl(0 72% 45%);
   --border: 210 4% 88%;
   --input: 210 4% 88%;
 
@@ -59,6 +73,7 @@
   /* Couleur de Thème Primaire (Violet: 270) - Plus claire pour fond sombre */
   --primary: 270 95% 58%;
   --primary-foreground: 210 6% 12%;
+  --primary-border: hsl(270 95% 52%);
   --sidebar-primary: 270 95% 58%;
   --ring: 270 95% 58%;
   --chart-1: 270 95% 58%;
@@ -68,14 +83,22 @@
   --foreground: 210 5% 98%;
   --card: 210 4% 16%;
   --card-foreground: 210 5% 98%;
+  --card-border: 210 4% 24%;
+  --popover: 210 4% 16%;
+  --popover-foreground: 210 5% 98%;
+  --popover-border: 210 4% 24%;
   --secondary: 210 4% 20%;
   --secondary-foreground: 210 5% 98%;
+  --secondary-border: hsl(210 4% 26%);
   --muted: 210 4% 20%;
   --muted-foreground: 210 3% 62%;
+  --muted-border: hsl(210 4% 26%);
   --accent: 210 4% 20%;
   --accent-foreground: 210 5% 98%;
+  --accent-border: hsl(210 4% 26%);
   --destructive: 0 63% 31%;
   --destructive-foreground: 210 5% 98%;
+  --destructive-border: hsl(0 63% 26%);
   --border: 210 4% 24%;
   --input: 210 4% 24%;
 
@@ -84,5 +107,48 @@
   --chart-3: 270 95% 78%;
   --chart-4: 270 95% 88%;
   --chart-5: 270 95% 92%;
+}
 
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.2);
+  }
+}
+
+/* Effets d'élévation au survol / clic (utilisés par les boutons et la navigation) */
+@layer utilities {
+  .hover-elevate,
+  .active-elevate-2 {
+    position: relative;
+    z-index: 0;
+  }
+
+  .hover-elevate::after,
+  .active-elevate-2::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: transparent;
+    transition: background-color 150ms ease;
+    pointer-events: none;
+  }
+
+  .hover-elevate:hover::after {
+    background-color: var(--elevate-1);
+  }
+
+  .active-elevate-2:active::after {
+    background-color: var(--elevate-2);
+  }
 }

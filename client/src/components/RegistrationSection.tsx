@@ -232,7 +232,7 @@ export function RegistrationSection() {
                     <FormItem>
                       <FormLabel>{t('Field of Study', "Domaine d'Études")}</FormLabel>
                       <FormControl>
-                        <Input {...field} disabled={isSubmitting} data-testid="input-fieldOfStudy" />
+                        <Input {...field} value={field.value ?? ''} disabled={isSubmitting} data-testid="input-fieldOfStudy" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
